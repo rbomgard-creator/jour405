@@ -1,0 +1,109 @@
+---
+title: "Oct 1 Activities: M&Ms; Survey; Sampling"
+date: 9-30-2025
+Group: Riley, Kaya, Miguel, Noah
+---
+
+All three class activities are on this .rmd notebook
+
+Activity #1: Activity: M&Ms - Central Limit Theorem
+
+Working in groups, each group will get a handful of candy from the bag, and then count the number of red and black candies. Log those in this Google Sheet 
+
+https://docs.google.com/spreadsheets/d/1KOeoVTq2W7L2T9sWjwh5U_2f59GsTeAylVGD53rNWww/edit?usp=sharing
+
+(give your group a nice name).
+
+Take a look at the values that we all get - what do you notice about the patterns? This is an exercise about the central limit theorem. 
+
+The central limit theorem states that the sampling distribution of the mean of any independent, random variable will be normal or nearly normal, if the sample size is large enough.
+
+Then discuss and try to answer these questions:
+
+--How close is your group's mean to the true proportion of 0.5?
+--Why do different groups get different results?
+--What happens to individual extreme results when we combine all groups?
+--How does this relate to polls and surveys in real life?
+
+Write your answer below. And then you may eat the M&Ms.
+
+**A:** For most groups, the average percentage of brown M&Ms is around 89%, +/- 5%. Different groups may get different results because it's a random sample; some groups may have more M&Ms than we do, or a different amount of M&Ms within each color. Extreme results will become part of the average, increasing or decreasing it depending on how extreme the value is. In real life, a sample size isn't always representative of the population. 
+
+------------------------------------------------------------------------------
+
+# Activity #2:
+
+Belonging Survey
+
+Working in pairs, take a look back at the main findings from UMD's Belonging Survey:
+
+https://president.umd.edu/internal/belonging
+
+
+Specifically, focus on the "Sample Description" section and the Appendix. Discuss the differences and between the population and the sample, and what the document says about how the survey attempted to deal with them. Are there any decisions described in the document that raise questions in your minds? Detail the differences you see and your understanding of the methods they employed (it's ok if you don't understand all of them), and add your questions. You should discuss this as a pair but submit individually.
+
+**A:** A majority of the responses came from UMD Staff, despite the fact that students make up the majority of the campus and university population. This doesn't accurately represent the belonging and feelings of the university as a whole, given that the distribution is skewed to represent that staff. Religious affiliation does not seem to be represented very well at all, considering responses from Jewish people were not large enough to create their own individual group, but represent around 20% of the campus population.
+
+------------------------------------------------------------------------------
+
+# TASK 3: SAMPLING
+
+Based on the class sampling demo (available on Elms), sample data from a population using R and the Tidyverse. You should get started by loading the tidyverse in a new R block.
+
+### Task 1: Load the tidyverse
+
+**A**
+```{r}
+
+library(tidyverse)
+```
+
+
+### Task 2: Load 1,000 rows of data with the ages of people from 18-80
+
+**A**
+```{r}
+set.seed(42)
+younguns <- tibble(
+  age = sample(18:80, 1000, replace = TRUE)
+)
+
+```
+
+### Task 3: Sample 100 rows of data from the dataset
+**A**
+```{r}
+sample_100 <- younguns |>
+  sample_n(100)
+
+```
+
+
+### Task 4: Calculate the mean age and standard deviation of the sample
+**A**
+```{r}
+sample_100 |> summarize(mean = mean(age), median = median(age), sd = sd(age))
+
+```
+
+
+### Task 5: Calculate the mean age and standard deviation of the population
+**A**
+```{r}
+younguns |> summarize(mean = mean(age), median = median(age), sd = sd(age))
+
+```
+
+
+### Task 6: Compare the sample and population statistics
+**A**
+```{r}
+
+
+```
+
+Compare the means and standard deviations. Are they similar? Go back and re-run the sampling and statistics calculations with a smaller sample size. How do the results change?
+
+**A**: The sample median and mean were lower than the population's median and mean, but these numbers fluctuated when sample sizes were changed. The standard deviation fluctuated as well. However, all values are similar, typically within +/- 5 of each other. 
+
+When finished, save your work, switch to GitHub Desktop, then add, commit and push your changes to GitHub and submit the URL of the notebook in ELMS.
