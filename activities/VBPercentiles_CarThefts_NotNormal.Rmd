@@ -6,7 +6,7 @@ date: 09-23-2025
 
 This workbook contains three exercises for our class. Complete them and hand it in at the end of class via a GitHub link.
 
-Your name:
+Your name: Riley Bomgardner
 **Answer**
 
 #------------------------------------------------------------------------------#
@@ -20,8 +20,13 @@ First, come up with two examples of data that might not be normally distributed 
 
 Then, how should a reporter working on a story about data that isn't normally distributed describe that data? Which statistical measures that we've covered in class should they use or avoid when doing so? Use the examples you came up with, and you should discuss your answers together, but each student submits separately.
 
-**Your answer**:
+**Your answer**: If you treat the data like it's objective and you assume about it before even starting, you will face challenges. 
 
+If you use a nice neighborhood in a city that's known to be crime ridden, your data is most likely to be skewed (sampling bias). 
+Income and housing prices can also produce skewed results. In a city, most houses are moderately priced (lower incomes) with some higher priced outliers (higher incomes), which pulls the average up.
+Household income: if one person in a household makes more than everyone else, that data can be skewed to the right (positive). 
+
+To work on a story using data like this, more context to explain the distribution is always a good move. Look at the history of the subject you're writing an article on. Find the outliers in your data and explain why this throws off the distribution. Use median instead of mean. 
 
 
 #------------------------------------------------------------------------------#
@@ -64,7 +69,7 @@ team_aces |> mutate(percentile = ntile(total_aces, 100))
 
 Write a couple of sentences that puts Maryland into context with the other teams in the dataset. You can do some Internet research to help with this.
 
-**Answer**:
+**Answer**: Maryland volleyball is in the top 20 for aces and in the 95th percentile. 5 percent of others have scored more aces than Maryland, but Maryland is scoring more aces than 95% of teams. 
 
 
 #------------------------------------------------------------------------------#
@@ -76,7 +81,7 @@ Follow along with the demo to learn how to calculate standard deviation and how 
 ### Task 1: Load the tidyverse
 
 ```{r}
-
+library(tidyverse)
 ```
 
 
@@ -112,7 +117,7 @@ car_thefts |>
 car_thefts |> 
   ggplot() + 
   geom_histogram(aes(x = count), binwidth = 2) +
-  geom_vline(aes(xintercept = mean(count)), color = "red", linetype = "dashed", size = 1) +
+  geom_vline(aes(xintercept = mean(count)), color = "red", linetype = "dashed", size = 2) +
   geom_vline(aes(xintercept = mean(count) - sd(count)), color = "blue", linetype = "dashed", size = 1) +
   geom_vline(aes(xintercept = mean(count) + sd(count)), color = "blue", linetype = "dashed", size = 1)
 ```
@@ -122,7 +127,7 @@ car_thefts |>
 Is the distribution normal or skewed in one direction? Write a sentence in which you describe the range of the data covered by one standard deviation from the mean on both sides - how much of the data falls in that range?
 
 
-**Answer**:
+**Answer**: The distribution is slightly skewed to the right. Most of the values are clustered around the mean, so one standard deviation covers most of the variance. 
 
 
 
