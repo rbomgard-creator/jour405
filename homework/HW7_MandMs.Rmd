@@ -5,27 +5,43 @@ title: "HW7_MandMs"
 In this assignment, you'll be picking up where you left off with the M&Ms activity. You'll load the data and perform some basic statistical analysis. Follow the steps below to complete the assignment.
 
 ### Task 1: Load the tidyverse
-
+```{r}
+library(tidyverse)
+library(janitor)
+```
 
 ### Task 2: Load the M&Ms dataset from https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/mandms.csv
-
+```{r}
+mms_data <- read_csv("https://raw.githubusercontent.com/dwillis/jour405/refs/heads/main/data/mandms.csv")
+```
 
 ### Task 3: Sample 5 rows of data from the dataset
-
+```{r}
+sample_5 <- mms_data |>
+  sample_n(5)
+```
 
 ### Task 4: Calculate the mean age and standard deviation of the sample, using either the blue or white number of M&Ms
-
+```{r}
+sample_5 |> summarize(mean = mean(black), median = median(black), sd = sd(black))
+```
 
 ### Task 5: Calculate the mean age and standard deviation of the population, using the same measure as in Task 4
-
+```{r}
+mms_data |> summarize(mean = mean(black), median = median(black), sd = sd(black))
+```
 
 ### Task 6: Compare the sample and population statistics
 
 Compare the two sets of means and standard deviations. Are they similar?
 
+ANSWER: Not at all. The mean, median, and standard deviation of the population (73.28, 71, and 15.75) are all much higher than the sample (mean: 61.4, median: 62, and standard deviation: 6.31). 
+
 ### Task 7: Describe the results
 
 Write a few sentences about what you found in the data. What does this tell you about the M&Ms dataset and about the act of random sampling?
+
+ANSWER: A random sample is not always going to give you accurate comparisons to a full population. Like we talked about in class on Wednesday, this happens depending on how a dataset receives the data (like a survey, through a landline, etc). If the sample size were larger for the M&Ms, the mean and standard deviation may have been closer to the full population. But a sample size of five is not enough to be accurate. 
 
 
 When finished, save your work, switch to GitHub Desktop, then add, commit and push your changes to GitHub and submit the URL of the notebook in ELMS.
