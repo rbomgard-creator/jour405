@@ -32,6 +32,27 @@ mms_data |> summarize(mean = mean(black), median = median(black), sd = sd(black)
 ```
 
 ### Task 6: Compare the sample and population statistics
+```{r}
+mms_data |> 
+  ggplot(aes(x = black)) +
+    geom_histogram(binwidth = 1, fill = "black", color = "white", alpha = 1) +
+    geom_vline(aes(xintercept = mean(black, na.rm = TRUE)), color = "red", linetype = "dashed", size = 1) +
+  geom_vline(aes(xintercept = mean(black, na.rm = TRUE) + sd(black, na.rm = TRUE)), color = "blue", linetype = "dotted", size = 1) +
+  geom_vline(aes(xintercept = mean(black, na.rm = TRUE) - sd(black, na.rm = TRUE)), color = "blue", linetype = "dotted", size = 1)
+  labs(title = "Population Distribution of Black M&Ms",
+       x = "Number of Black M&Ms",
+       y = "Count")
+  
+sample_5 |> 
+  ggplot(aes(x = black)) +
+  geom_histogram(binwidth = 1, fill = "black", color = "white", alpha = 1) +
+  geom_vline(aes(xintercept = mean(black, na.rm = TRUE)), color = "red", linetype = "dashed", size = 1) +
+  geom_vline(aes(xintercept = mean(black, na.rm = TRUE) + sd(black, na.rm = TRUE)), color = "blue", linetype = "dotted", size = 1) +
+  geom_vline(aes(xintercept = mean(black, na.rm = TRUE) - sd(black, na.rm = TRUE)), color = "blue", linetype = "dotted", size = 1)
+  labs(title = "Sample Distribution of Black M&Ms (n=5)",
+       x = "Number of Black M&Ms",
+       y = "Count")
+```
 
 Compare the two sets of means and standard deviations. Are they similar?
 
