@@ -1,7 +1,10 @@
 ---
-title: "Prince George's County Car Theft Spike Analysis"
+title: "HW12 car theft anova"
 author: "Your Name"
 ---
+
+**Riley Bomgardner**
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE,
@@ -45,7 +48,7 @@ theft_data <- theft_data |>
     date = as.Date(month),
     year = year(date),
     month_number = month(date),
-    theft_rate = (REPLACE_ME / REPLACE_ME) * 100000,
+    theft_rate = (total / population) * 100000,
     time_period = case_when(
       year < 2023 ~ "Pre-spike",
       year == 2023 ~ "Spike year",
@@ -66,13 +69,12 @@ period_summary <- theft_data |>
   )
 
 # Display the summary
-knitr::kable(period_summary, digits = 2,
-             caption = "Summary of Car Theft Rates by Time Period")
+period_summary
 ```
 
 **Task 2** Describe the results of calculating the rates for each period. What do they suggest? (3 points)
 
-ANSWER_HERE
+**WRITE YOUR ANSWER HERE**: The mean and median rates almost triple from pre-spike (23.19 mean and 22.17 median) to spike year (59.95 mean and 58.13 median). The data also shows that mean thefts still have a higher value post-spike (418.79) than pre-spike (216.42), meaning that it's taking time to get car thefts consistent again.
 
 ## Visualizing the Spike Pattern
 
@@ -94,7 +96,9 @@ ggplot(theft_data, aes(x = date, y = theft_rate)) +
 
 **Task 3** Describe the output of this chart and then give it a better, more active title that provides the lede (3 points)
 
-ANSWER HERE
+**WRITE YOUR ANSWER HERE**: This chart shows all car thefts in Prince George's County from 2017 through 2024. The spike year is highlighted by red dashed lines, showing enormous increase in thefts at the end of 2022 through the end of 2023. You can also see where the decline after the spike begins, but it's no where near the values of the pre-spike data.
+
+Car thefts soared in 2023 in Prince George's County, but continue to stay elevated post-spike.
 
 
 Now let's take a look at average theft rates.
@@ -130,9 +134,9 @@ For our ANOVA test, we'll compare the mean theft rates between the three time pe
 
 **Task 4** Fill in the hypotheses (2 points)
 
-- **Null Hypothesis (H0)**: ANSWER HERE
+- **Null Hypothesis (H0)**:   There is no significant difference between mean theft rates of pre-spike, spike, and post-spike.
 
-- **Alternative Hypothesis (H1)**: ANSWER HERE
+- **Alternative Hypothesis (H1)**: There is a significant difference between mean theft rates of pre-spike, spike, post-spike.
 
 ### One-way ANOVA Test
 
@@ -144,7 +148,7 @@ summary(period_anova)
 
 **Task 5** Describe the result: are there real differences in the average rates between the time periods? Is this result significant? (5 points)
 
-ANSWER HERE
+**WRITE YOUR ANSWER HERE** Yes, there are real differences. This test confirms that there is a statistical significance because the p-values is less than 0.001. If it were higher, we would have to accept the null hypothesis and say there is not a significant difference in time periods.
 
 ## Compare the differences between specific periods
 
@@ -190,4 +194,8 @@ This analysis has examined whether there are significant differences in car thef
 
 **Task 6** Describe the results of the Tukey's test and chart showing confidence intervals. Is there a significant difference between the three periods? In particular, is the difference between the pre-spike and post-spike periods real and significant? Write a headline and lede reporting these findings, focusing on the pre- and post-spike periods. (5 points)
 
-ANSWER HERE
+**WRITE YOUR ANSWER HERE**: The Tukey shows the significant differences in each mean car theft rate for pre-spike, spike, and post-spike. There is a significant different between pre and post-spike, but it's smaller than if compared to the spike year. Theft rates didn't return to pre-spike levels, which is what the chart shows us. You can see how significant the difference is just by looking at the gaps on the chart. The confidence levels for pre-spike and post also do not overlap, so there is significance to this data.
+
+Two years after a 2023 spike, car thefts remain high in Prince George's County 
+
+Although car thefts rates in Prince George's County have declined from a 2023 spike, they remain well above pre-spike levels, new data shows. Statistical tests run by journalism students at the University of Maryland confirm that car thefts haven't decreased all the way back to pre-spike numbers, highlighting that the spike from 2023 continues to have lasting effects on car-related crime in the county.
