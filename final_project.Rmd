@@ -1,0 +1,20 @@
+---
+title: "final_project"
+output: html_document
+date: "2025-11-15"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse, janitor)
+```
+
+**Final Project: Billboard Hot 100**
+What makes a hit song? Is it rhythm, lyrics, popularity of the artist, beats per minute? That's what will be tested in this final project.
+
+```{r load data}
+billboard_100 <- read_csv("Billboard Hot 100 Number Ones Database - Data.csv")
+
+# preview structure
+view(billboard_100)
+```
