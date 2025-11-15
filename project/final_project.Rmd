@@ -6,24 +6,80 @@ date: "2025-11-15"
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse, janitor)
 ```
 
-## R Markdown
+**Final Project: Billboard Hot 100**
+What makes a hit song? Is it rhythm, lyrics, popularity of the artist, beats per minute? Does the day a song is released on have any impact on if it's a hit? How does BPM influence danceability and therefore the ability of a song to become a hit? That's what will be tested in this final project.
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+```{r load data}
+billboard_100 <- read_csv("project/BillboardHot100NumberOnesDatabaseData.csv")
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
+# preview structure
+view(billboard_100)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+**Notes**
+
+1. link to data source and details on the data: https://docs.google.com/spreadsheets/d/1MSp-Feo0X54bthtB5KT5ucSzUEwS89DHqVgKqDVOC7g/edit?gid=1974823090#gid=1974823090
+
+2. More recent songs (Old Town Road (2019) and A Bar Song (Tipsy) (2024) have the highest number of weeks at number 1 (19 weeks). Is a song less of a hit if it only stays on the hot 100 for a certain amount of weeks? Is a song not a hit if it's only on the charts for 1 week?
+
+3. How is billboard's "rating" measured? How important is this number to establishing if one song is more of a hit than another?
+
+4. Covers the weekly Billboard Hot 100 from August 4, 1958 to January 11, 2025.
+
+5. Important columns: Weeks at Number 1, danceability, energy, BPM, time signature, CDR Genre, Discogs Genre, Overall Rating, Date, Song, Artist
+
+6. Billboard Hot 100s are released on Mondays
+
+
+**Statistics on time signature**
+```{r}
+billboard_100 |>
+  summarize(
+    mean_time_sig = mean(`Time Signature`, na.rm = TRUE),
+    median_time_sig = median(`Time Signature`, na.rm = TRUE),
+    min_time_sig = min(`Time Signature`, na.rm = TRUE),
+    max_sig = max(`Time Signature`, na.rm = TRUE),
+    sd_sig = sd(`Time Signature`, na.rm = TRUE)
+  )
 ```
+Probably not the best tests to run on this type of measurement, but it seems that the 4/4 time signature is used quite often among these billboard hits. None of these time signatures are anything that would be rare, as they are used in any type of music you can think of. It may be more of a BPM measure that truly determines if a song is a hit, but it needs a time signature to go along with it.
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+**Stats on BPM**
+```{r}
+billboard_100 |>
+  summarize(
+    mean_bpm = mean(BPM, na.rm = TRUE),
+    median_bpm = median(BPM, na.rm = TRUE),
+    min_bpm = min(BPM, na.rm = TRUE),
+    max_bpm = max(BPM, na.rm = TRUE),
+    sd_bpm = sd(BPM, na.rm = TRUE)
+  )
+```
+115.85 BPM is the mean value for this test. This is almost two beats per second. This means that most hits share similar beats per minute, which could be one of the main reasons these songs reach such charts. This should be compared to the overall rate as well, but the date for these songs is important because it could determine what people determined as a hit in other decades. For example, "Every Breath You Take," by The Police is listed at 117 beats per minute, but gives the impression of a slower song because of its mellow tone. Does tone determine a hit? What about the song's message? All things to keep stats on.
+
+It may be a good idea to divide the music by decade at a later time just to see if there's any difference in bpm or overall rate, or how long a song has stayed at number one on the charts. Or if different genres are more of a hit over one decade or another (hip-hop in the 90s may produce more hits than hip-hop in the 70s).
+
+
+**Hypothesis**
+
+Null hypothesis: Any song can be a hit and beats per minute doesn't factor into that. (no significance)
+Alternative Hypothesis: If a song has a BPM more than or around 115, it's likely to become a hit and be part of the Billboard Hot 100. (significance)
+
+How much does BPM affect the charts? I think something else that might be nice to include in the data would be the shift from physical music (cassettes, vinyls, radios/cds) to more streaming sites (Spotify, Apple Music, Amazon Music, etc) because I feel like this could affect popularity of a song. Like is the Billboard Hot 100 based on streaming now, or still on what's played on the radio? Is it a mix of both?
+How do sales come into play? Are these songs hits because of a high revenue in sales? Are there songs on this list that may have lower revenues but are still considered a hit?
+
+I think the shift in how music is listened to should be noteworthy because it may have been weighed differently before streaming came into the picture.
+
+
+
+
+Saved to Github as of 11:32.
+
+
