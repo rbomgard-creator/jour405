@@ -84,10 +84,10 @@ schools <- schools |>
 ```
 The schools with the biggest positive residuals are performing better than expected, while the schools with the biggest negative residuals are performing worse than expected, based on their FARMS percentage. Look at the absolute values of the residuals; what are the largest differences between the predicted result and the actual math scores?
 
-****
+**The largest difference that is positive would be Crooked Billet El Sch, with a projected 64.58 and an actual math score of 95.7. The largeest negative difference is White Marsh El Sch, with a projected 60.99 and an actual math score of 26.1.**
 
 ## Task: Evaluate the model (3 points)
 
 A school board member has said at a meeting that elementary schools with fewer students on free and reduced price meals do better on standardized math tests. Describe what conclusions you'd draw from this model's results and how it would influence a story pitch about the school board member and math scores.
 
-**WRITE YOUR ANSWER HERE**
+**Due to a very weak positive correlation between FARMS percent and scores on a math test, along with tests run to show significance, we cannot prove this statement correct as the connection between the two isn't statistically significant. The idea that socioeconomic status can determine differences in math score is not supported by the data. Some schools with large FARMS percentages how outperformed those with lower ones and vice versa, so it's tough to prove this statement. For a story, this could influence accountability, so I'd want to talk to the board member about why she may feel that way. A story you may also be able to do here would be exploring what truly drives performance differences on standardized tests. Is it learning programs installed into specific schools, instructional quality, how a school is run, accessibility to technology and other learning tools, class size, etc?**
