@@ -13,7 +13,7 @@ library(tidyverse, janitor)
 What makes a hit song? Is it rhythm, lyrics, popularity of the artist, beats per minute? Does the day a song is released on have any impact on if it's a hit? How does BPM influence danceability and therefore the ability of a song to become a hit? That's what will be tested in this final project.
 
 ```{r load data}
-billboard_100 <- read_csv("project/BillboardHot100NumberOnesDatabaseData.csv")
+billboard_100 <- read_csv("/Users/rileybomgardner/Documents/GitHub/jour405/project/BillboardHot100NumberOnesDatabaseData.csv")
 
 # preview structure
 view(billboard_100)
@@ -25,7 +25,7 @@ view(billboard_100)
 
 1. link to data source and details on the data: https://docs.google.com/spreadsheets/d/1MSp-Feo0X54bthtB5KT5ucSzUEwS89DHqVgKqDVOC7g/edit?gid=1974823090#gid=1974823090
 
-2. More recent songs (Old Town Road (2019) and A Bar Song (Tipsy) (2024) have the highest number of weeks at number 1 (19 weeks). Is a song less of a hit if it only stays on the hot 100 for a certain amount of weeks? Is a song not a hit if it's only on the charts for 1 week?
+2. More recent songs (Old Town Road (2019) and A Bar Song (Tipsy) (2024)) have the highest number of weeks at number 1 (19 weeks). Is a song less of a hit if it only stays on the hot 100 for a certain amount of weeks? Is a song not a hit if it's only on the charts for 1 week?
 
 3. How is billboard's "rating" measured? How important is this number to establishing if one song is more of a hit than another?
 
@@ -80,6 +80,101 @@ I think the shift in how music is listened to should be noteworthy because it ma
 
 
 
-Saved to Github as of 11:32.
+Saved to GitHub as of 11:32 p.m. on November 17th, 2025.
 
 
+
+
+**Part 2: Running Tests**
+First, fix the date format.
+```{r}
+billboard <- read_csv("/Users/rileybomgardner/Documents/GitHub/jour405/project/BillboardHot100NumberOnesDatabaseData.csv") |> 
+clean_names() |> 
+mutate(date_new = dmy(date)) |> 
+mutate(date_new = if_else(year(date_new) > 2025,  date_new - years(100), date_new)) |> 
+select(date_new, everything())
+```
+Now, I have a new table with a date format this is easier to use in analysis and further testing. 
+
+As mentioned in the first part of the final project, I'm testing a null hypothesis that states the BPM has nothing to do with a song becoming a hit, while an alternative hypothesis states otherwise. 
+
+This needs to change a bit since I have nothing to compare it too. Instead, does BPM have an impact on how long a hit stays at #1? That's what were testing.
+
+Null: BPM does not affect how long a hit stays on the charts
+Hypothesis: Songs with a higher BPM (greater or equal to 115) stay at #1 for a different amount of time than those with lower BPMs. 
+
+To test the significance of an alternative hypothesis, I'm going to run an t-test test, since I'm only using BPM.
+```{r}
+# T-Test: Do songs with BPM >= 115 stay at #1 longer?
+
+# Create binary variable for high BPM (>= 115)
+billboard_high_bpm <- billboard |>
+  filter(!is.na(bpm) & !is.na(weeks_at_number_one)) |>
+  mutate(high_bpm = bpm >= 115)
+
+# Run the t-test
+bpm_ttest <- t.test(weeks_at_number_one ~ high_bpm, data = billboard_high_bpm)
+
+# Display results
+print(bpm_ttest)
+```
+The null hypothesis can be excepted in this instance. The p-value came out to be 0.80, which is way over the significance value of 0.05. There is no statistically difference in the number of weeks at #1 between songs with a BPM greater than or equal to 115 and those with a BPM less than 115. This test also shows that songs less than the 115 average tend to stay at #1 for an average of 2.92 weeks, while those equal or greater than a BPM of 115 tend to stay at number one for around 2.96 weeks. This difference is basically nothing, which makes it statistically insignificant.
+
+Next, I think it would be wise to see if decade affects BPM. Is there a drastic change among decades or does it mainly stay the same? 
+Null: There is no significant difference in mean BPM across decades.
+Alternative: At least one decade has a significantly different mean BPM compared to other decades. 
+
+Let's run an ANOVA test.
+```{r}
+# Create decade variable from date
+billboard_decades <- billboard |>
+  filter(!is.na(bpm) & !is.na(date_new)) |>
+  mutate(
+    year = year(date_new),
+    decade = floor(year / 10) * 10,
+    decade_label = paste0(decade, "s")
+  )
+
+# Check decade distribution
+decade_counts <- billboard_decades |>
+  count(decade_label, sort = TRUE)
+
+print("Songs per decade:")
+print(decade_counts)
+
+#ANOVA test
+anova_result <- aov(bpm ~ decade_label, data = billboard_decades)
+anova_summary <- summary(anova_result)
+
+print("ANOVA Results:")
+print(anova_summary)
+```
+The null hypothesis can also be accepted here. The p-value is 0.067, which is very close the significance level, but not less than. So there is not a significant difference in BPM for each decade. However, because this is so close to the cut-off, you may wonder if some decades might have a trend in BPM, but the evidence and ANOVA test isn't strong enough to reach an absolute conclusion. 
+
+Now, a data visualization. I've decided to keep the decade and BPM factors for this graph. 
+```{r}
+billboard_decades |> 
+  group_by(decade_label) |>
+  summarize(mean_bpm = mean(bpm, na.rm = TRUE)) |>
+  ggplot(aes(x = decade_label, y = mean_bpm)) +
+  geom_line(aes(group = 1), color = "steelblue", size = 1) +
+  geom_point(color = "darkblue", size = 3) +
+  labs(
+    title = "Mean BPM by Decade (1950s - 2020s)",
+    subtitle = "Is there a trend over time?",
+    x = "Decade",
+    y = "Average Beats Per Minute (BPM)"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    axis.title = element_text(face = "bold"),
+    axis.text.x = element_text(angle = 45, hjust = 1)
+  )
+```
+This chart tells me that there is no real trend over time, even though it seems like the average BPM has increased close to linearly since the 90s. However, there are fluctuations, like from the 80s to the 80s that create inconsistencies, so this graph tells me further why I had to accept the null hypothesis in the ANOVA test above. If I was to only test from the 90s to now, the statistics may actually be significant, but I needed to measure the full list of dates given to me. 
+The 50s and 80s have similar BPMs. One similar BPM is 113, which showcases "Smoke Gets in Your Eyes," from the Platters (1959), and "West End Girls," from Pet Shop Boys (1986). Although the 80s introduce "new wave" as a newer genre, these songs share a BPM and are both catchy in their own ways. 
+You can also take into account a cultural context of these songs. During the 90s, grunge, alternative, and slower R&B ruled the Billboard Hits lists, while the 2000s-2020s accelerated with EDM influences, TikTok viral songs, etc. Modern songs are faster, but due to analyzing the entire chart, this becomes less significant. 
+
+
+Saved to GitHub as of 11:49 pm, November 25, 2025.
