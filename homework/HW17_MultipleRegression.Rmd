@@ -1,6 +1,6 @@
 ---
 title: "Multiple Regression Analysis: Maryland Voter Turnout"
-name: "YOUR NAME HERE"
+name: "Riley Bomgardner"
 date: 8-24-2025
 ---
 
@@ -27,7 +27,9 @@ head(md_turnout)
 
 Before building our model, let's explore the data to understand the variables and their relationships. Examine the correlation matrix to see how the independent variables relate to each other and to the dependent variable (voter turnout). Which variables seem to be correlated? Are there any that are not correlated at all? Also look at the multiple scatterplots. Which variables seem to have a linear relationship with the dependent variable? Which do not?
 
-ANSWER HERE
+ANSWER HERE: Counties with a higher rate of unemployment seem to have less voter turnout. In Prince George's County, their unemployment rate is around 3.5% and their voter turnout rate is around 66%. It also seems like the percentage of white people in a certain population plays into voter turnout. 95% of Garrett County's population is white and their voter turnout is 77%. Population seems to matter less than the rest of the measurements. Median age, education, income, and racial demographics always matter when it comes to voting.
+
+The scatterplots show a positive correlation for income, median age, higher education, and percentage of white within a population. It also shows a negative correlation between voter turnout and unemployment, and voter turnout and population, which further backs up my statements above.
 
 
 ```{r}
@@ -90,7 +92,7 @@ The coefficients tell us the estimated effect of each independent variable on th
 
 Examine the output of the model, checking the coefficients, residuals, and overall model fit. How well does this multiple variable model predict turnout? Do any of the variables seem to be insignificant? Is this a useful model, based on what you've seen? Why?
 
-ANSWER HERE
+ANSWER HERE: This model predicts turnout very well. The p-value is 0.0000029, which means the data is statistically significant. The multiple r-squared value is 0.8539, which means that 85% of the variation in voter turnout is explained by variables in the model. This is still true with the adjusted r-squared value (0.8023), which means that the model is still strong. This is a useful model because of the factors listed above. If the model wasn't statistically significant, none of this information would matter.
 
 ```{r}
 # Build initial model with all predictors
@@ -104,19 +106,19 @@ summary(initial_model)
 
 Create three alternative models by adding or removing variables to see if we can improve the model's performance. Turnout will always be the dependent variable, but you should alter the independent variables by removing or adding some. Then compare the models using adjusted R-squared values. Are any of the models significantly better than the others?
 
-ANSWER HERE
+ANSWER HERE: Model 2 seems to perform slightly better than the others and is the strongest of the four models. Removing some weaker predictors slightly improved model efficiency, but not by a significant amount. But Model 3 only has three predictors and has the same adjusted r-squared as the full model (0.80), showing that a simpler version of the model may work just as well. Model 4 performs the worst, so removing race and only focusing on socioeconomic factors makes the model less predictive.
 
 ```{r}
 # Model 2
-model2 <- lm(turnout ~ REPLACE ME, data = md_turnout)
+model2 <- lm(turnout ~ income + pct_unemployed + median_age + pct_white, data = md_turnout)
 summary(model2)
 
 # Model 3
-model3 <- lm(turnout ~ REPLACE ME, data = md_turnout)
+model3 <- lm(turnout ~ income + median_age + pct_white, data = md_turnout)
 summary(model3)
 
 # Model 4
-model4 <- lm(turnout ~ REPLACE ME, data = md_turnout)
+model4 <- lm(turnout ~ income + pct_bachelors_higher + pct_unemployed + median_age, data = md_turnout)
 summary(model4)
 
 # Compare models
@@ -145,4 +147,4 @@ ggplot(model_comparison, aes(x = reorder(Model, Adjusted_R_squared), y = Adjuste
 
 Without using the words "multiple regression model", describe how you could use this analysis to cover an election or voter participation story.
 
-ANSWER HERE
+ANSWER HERE: Why do some counties vote at much higher rates than others in Maryland? And why doesn't population matter as much? Income, age, unemployment, and race demographics can be used to see patterns in counties across the state and how they impact voter turnout. Our tests can be used to show the significance in these predictors when it comes to voting. This can further predict how voting might look at the next presidential election in 2028, or just what percentage of each county will most likely vote. This could potentially be compared to other states to see if Maryland's voter turnout is higher or lower than others and why that may be. Does our state do a better job at marketing and advocating for an upcoming election? Do they do a worse job?
