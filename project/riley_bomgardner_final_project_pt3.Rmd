@@ -1,7 +1,8 @@
 ---
 title: "final_project"
 output: html_document
-date: "2025-11-15"
+date: "2025-12-15"
+Riley Bomgardner
 ---
 
 ```{r setup, include=FALSE}
@@ -13,7 +14,7 @@ library(tidyverse, janitor)
 What makes a hit song? Is it rhythm, lyrics, popularity of the artist, beats per minute? Does the day a song is released on have any impact on if it's a hit? How does BPM influence danceability and therefore the ability of a song to become a hit? That's what will be tested in this final project.
 
 ```{r load data}
-billboard_100 <- read_csv("/Users/rileybomgardner/Documents/GitHub/jour405/project/BillboardHot100NumberOnesDatabaseData.csv")
+billboard_100 <- read_csv("https://raw.githubusercontent.com/rbomgard-creator/jour405/refs/heads/main/project/BillboardHot100NumberOnesDatabaseData.csv")
 
 # preview structure
 view(billboard_100)
@@ -88,7 +89,7 @@ Saved to GitHub as of 11:32 p.m. on November 17th, 2025.
 **Part 2: Running Tests**
 First, fix the date format.
 ```{r}
-billboard <- read_csv("/Users/rileybomgardner/Documents/GitHub/jour405/project/BillboardHot100NumberOnesDatabaseData.csv") |> 
+billboard <- read_csv("https://raw.githubusercontent.com/rbomgard-creator/jour405/refs/heads/main/project/BillboardHot100NumberOnesDatabaseData.csv") |> 
 clean_names() |> 
 mutate(date_new = dmy(date)) |> 
 mutate(date_new = if_else(year(date_new) > 2025,  date_new - years(100), date_new)) |> 
@@ -178,3 +179,46 @@ You can also take into account a cultural context of these songs. During the 90s
 
 
 Saved to GitHub as of 11:49 pm, November 25, 2025.
+
+
+
+***Part 3: Story Pitch***
+
+Working Headline:
+
+Does Tempo Really Make a Hit? What Billboard’s No. 1 Songs Reveal About BPM and Popularity
+
+
+Story Pitch:
+
+The idea of a magic formula for a hit song has long been the subject of speculation among music industry insiders and listeners. One common belief is that more energetic songs - measured by beats per minute - are both more likely to reach No. 1 on Billboard Hot 100 and then stay on the charts longer. Using Billboard Hot 100 No. 1 data from 1958 through early 2025, this analysis tested if BPM does indeed play a significant role in determining how long a song stays at No. 1.
+It would appear that tempo is not, on its own, the chief determining factor for chart longevity. Songs with higher BPMs - most commonly defined here as being 115 BPM or above - did not stay at No. 1 significantly longer than slower songs. A t-test showed nearly identical averages - about three weeks at No. 1 for both groups - with no statistical significance. Furthermore, an additional ANOVA test found no significant variation in average BPM across decades - perhaps surprising given that many people feel that modern hits are faster than older ones.
+This conclusion challenges the idea that faster music is inherently more successful on the charts and suggests that other factors such as genre trends, cultural context, marketing, and changes in how music is consumed play a larger role than tempo.
+
+
+Key Highlights from Findings:
+
+The average BPM of Billboard No. 1 hits is around 116 BPM, a tempo that has remained pretty consistent through time.
+Songs with BPMs above this average do not stay at No. 1 longer than slower songs.
+While BPM does seem to have a slight uptick in the last few decades of the chart, the difference is not quite statistically significant over the full Billboard chart history.
+Even with changing listening habits and platforms, tempo alone cannot explain success with regards to musical success.
+
+
+Limitations and Potential Problems:
+
+The present analysis only includes songs that reached No. 1, meaning it cannot compare hit songs to non-hits. As a result of that, BPM's role in becoming a hit cannot be fully tested - only its relationship to chart longevity. Moreover, Billboard's ranking methodology changed multiple times over the 1958-2025 timeline, especially with the introduction of streaming and digital sales. It also changed how success is measured across eras. Other influential variables include marketing budgets, radio airplay, genre popularity, and artist recognition, which are not directly measured in this dataset.
+
+
+Reporting Plan:
+
+To strengthen the story, reporting would involve:
+--Interviews with experts in the music industry, producers, or musicologists on whether BPM is consciously considered when composing songs.
+--Additional context from Billboard editors or other music analysts about how the calculations for the charts have changed with streaming and social media.
+--Examples of iconic hits that had slower tempos and thus run opposite to what common assumptions about energy and popularity.
+--A comparison between the BPM trends and genre shifts over time, in order to better explain cultural influences on chart success.
+
+
+All in all, the data and reporting paint a nuanced picture: Whereas tempo does matter to how music feels, it's not a great predictor of chart dominance. The factors that have decided success on the Billboard Hot 100 seem to be more influenced by cultural moments and industry forces rather than just beats per minute.
+
+
+Saved to Github as of 11:34pm, Dec. 12, 2025.
